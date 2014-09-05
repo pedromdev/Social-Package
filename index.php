@@ -14,4 +14,48 @@ define('PLUGIN_DIR', plugin_dir_path(__FILE__));
 
 include(PLUGIN_DIR . 'includes/boot.php');
 
+add_action('admin_menu', 'sp_menu');
+register_activation_hook(__FILE__, 'init_socials');
+
+function sp_menu()
+{
+	add_menu_page('Social Package', 'Social Package', 'manage_options', 'social-package', 'social_package_menu');
+
+	function social_package_menu()
+	{
+		echo '<h1>Social Package</h1>';
+
+		$socialdao = new SocialDAO();
+
+		if ($_SERVER['REQUEST_METHOD'] == 'POST')
+		{
+			include(PLUGIN_DIR . 'request.php');
+		}
+
+		$socials = $socialdao->buscarPorId(1);
+		
+		include(PLUGIN_DIR . 'page.php');
+	}
+}
+
+function init_socials()
+{
+	$socialdao = new SocialDAO();
+	$list = $socialdao->listarTodos();
+
+	if (!$list)
+	{
+		$args = array(
+			'youtube' => '',
+			'facebook' => '',
+			'flickr' => '',
+			'twitter' => '',
+			'soundcloud' => '',
+			'vimeo' => '',
+		);
+
+		$socialdao->salvar($args);
+	}
+}
+
 include(PLUGIN_DIR . 'youtube/index.php');

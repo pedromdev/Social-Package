@@ -2,13 +2,17 @@
 
 if (!class_exists('MasterDAOPackage'))
 {
-	class MasterDAOPackage
+	class MasterDAOPackage extends Paginate
 	{
 		protected $table;
 
 		protected $primary_key;
 
 		protected $wpdb;
+
+		protected $list_results;
+
+		protected $per_page = 5;
 
 		public function __construct()
 		{
@@ -57,7 +61,11 @@ if (!class_exists('MasterDAOPackage'))
 
 		public function listarTodos()
 		{
-			return $this->wpdb->get_results("SELECT * FROM " . $this->table);
+			$this->list_results = $this->wpdb->get_results("SELECT * FROM " . $this->table);
+
+			$this->setElements($this->list_results, $this->per_page);
+
+			return $this->list_results;
 		}
 
 		public function excluir($where)
