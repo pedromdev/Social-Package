@@ -16,8 +16,19 @@ if (!class_exists('MasterDAOPackage'))
 			$this->wpdb = $wpdb;
 		}
 
+		protected function clear($values)
+		{
+			foreach ($values as $key => $value) {
+				$values[$key] = trim($value);
+			}
+
+			return $values;
+		}
+
 		public function salvar($values)
 		{
+			$values = $this->clear($values);
+			
 			$this->wpdb->insert($this->table, $values);
 
 			return $this->wpdb->insert_id;
@@ -25,6 +36,8 @@ if (!class_exists('MasterDAOPackage'))
 
 		public function atualizar($values, $where)
 		{
+			$values = $this->clear($values);
+
 			if (is_array($where))
 			{
 				$this->wpdb->update($this->table, $values, $where);
@@ -49,7 +62,14 @@ if (!class_exists('MasterDAOPackage'))
 
 		public function excluir($where)
 		{
-			# code...
+			if (is_array($where))
+			{
+				$this->wpdb->delete($this->table, $where);
+			}
+			else
+			{
+				$this->wpdb->delete($this->table, array($this->primary_key => $where));
+			}
 		}
 	}
 }
