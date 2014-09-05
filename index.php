@@ -12,4 +12,6 @@ License: GPL v2
 define('PLUGIN_URL', plugin_dir_url(__FILE__));
 define('PLUGIN_DIR', plugin_dir_path(__FILE__));
 
+include(PLUGIN_DIR . 'includes/boot.php');
+
 include(PLUGIN_DIR . 'youtube/index.php');
