@@ -10,7 +10,7 @@
 
 define('SEARCH_VIDEOS', 'http://gdata.youtube.com/feeds/api/videos');
 define('CHANNEL_VIDEOS', 'http://gdata.youtube.com/feeds/api/users/%username%/uploads');
-define('YOUTUBE_LIB_VERSION', '1.13.1');
+// define('YOUTUBE_LIB_VERSION', '1.13.1');
 
 class YoutubePackage
 {
