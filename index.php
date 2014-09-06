@@ -9,17 +9,55 @@ Author URI: https://github.com/pedromarcelojava/
 License: GPL v2
 */
 
+/*
+|------------------------------------------
+|	CONSTANTES
+|------------------------------------------
+*/
+
 define('PLUGIN_URL', plugin_dir_url(__FILE__));
 define('PLUGIN_DIR', plugin_dir_path(__FILE__));
+define('SOCIAL_PACKAGE_ADMIN_MENU', 'social-package');
 
-include(PLUGIN_DIR . 'includes/boot.php');
+/*
+|------------------------------------------
+|	AÇÕES
+|------------------------------------------
+*/
 
 add_action('admin_menu', 'sp_menu');
 register_activation_hook(__FILE__, 'init_socials');
+register_uninstall_hook(__FILE__, 'uninstall_socials');
+
+/*
+|------------------------------------------
+|	INJEÇÃO DE DEPENDÊNCIAS
+|------------------------------------------
+*/
+
+include(PLUGIN_DIR . 'includes/boot.php');
+
+/*
+|------------------------------------------
+|	REDES SOCIAIS
+|------------------------------------------
+*/
+
+$menus_sp = array();
+
+include(PLUGIN_DIR . 'youtube/index.php');
+
+/*
+|------------------------------------------
+|	FUNÇÕES
+|------------------------------------------
+*/
 
 function sp_menu()
 {
-	add_menu_page('Social Package', 'Social Package', 'manage_options', 'social-package', 'social_package_menu');
+	global $menus_sp;
+
+	add_menu_page('Social Package', 'Social Package', 'manage_options', SOCIAL_PACKAGE_ADMIN_MENU, 'social_package_menu');
 
 	function social_package_menu()
 	{
@@ -35,6 +73,12 @@ function sp_menu()
 		$socials = $socialdao->buscarPorId(1);
 		
 		include(PLUGIN_DIR . 'page.php');
+	}
+
+	print_r($menus);
+
+	foreach ($menus_sp as $menu) {
+		$menu();
 	}
 }
 
@@ -58,4 +102,9 @@ function init_socials()
 	}
 }
 
-include(PLUGIN_DIR . 'youtube/index.php');
+function uninstall_socials()
+{
+	global $wpdb;
+
+	$wpdb->query("DROP TABLE IF EXISTS $wpdb->social_package");
+}
