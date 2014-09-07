@@ -34,7 +34,7 @@ register_uninstall_hook(__FILE__, 'uninstall_socials');
 |	INJEÇÃO DE DEPENDÊNCIAS
 |------------------------------------------
 */
-
+include(PLUGIN_DIR . 'register-scripts.php');
 include(PLUGIN_DIR . 'includes/boot.php');
 
 /*
@@ -85,6 +85,8 @@ function sp_menu()
 function init_socials()
 {
 	$socialdao = new SocialDAO();
+	$youtubedao = new YoutubeDAO();
+
 	$list = $socialdao->listarTodos();
 
 	if (!$list)
@@ -100,6 +102,19 @@ function init_socials()
 
 		$socialdao->salvar($args);
 	}
+
+	$list = $youtubedao->listarTodos();
+
+	if (!$list)
+	{
+		$args = array(
+			'max_results' => null,
+			'start_index' => null,
+			'per_page' => null
+		);
+
+		$youtubedao->salvar($args);
+	}
 }
 
 function uninstall_socials()
@@ -107,4 +122,5 @@ function uninstall_socials()
 	global $wpdb;
 
 	$wpdb->query("DROP TABLE IF EXISTS $wpdb->social_package");
+	$wpdb->query("DROP TABLE IF EXISTS $wpdb->youtube_package");
 }
