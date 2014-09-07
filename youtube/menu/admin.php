@@ -11,12 +11,18 @@ function youtube_menu_admin()
 
 function yt_menu()
 {
+	wp_enqueue_script('form-package');
+	
 	echo '<h1>Youtube</h1>';
+
+	$youtubedao = new YoutubeDAO();
 
 	if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	{
 		include(PLUGIN_DIR . 'youtube/menu/request.php');
 	}
+
+	$yt_options = $youtubedao->buscarPorId(1);
 
 	include(PLUGIN_DIR . 'youtube/menu/page.php');
 }
