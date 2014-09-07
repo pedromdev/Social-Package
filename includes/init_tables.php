@@ -18,3 +18,15 @@ $sql =
 );";
 
 dbDelta($sql);
+
+$wpdb->__set('youtube_package', $wpdb->prefix . 'youtube_package');
+
+$sql = 
+"CREATE TABLE IF NOT EXISTS " . $wpdb->youtube_package . "(
+	id_youtube_package INT(7) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	max_results INT(3) NULL,
+	start_index INT(3) NULL,
+	per_page INT(3) NULL
+);";
+
+dbDelta($sql);
