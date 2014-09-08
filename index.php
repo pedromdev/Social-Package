@@ -46,6 +46,7 @@ include(PLUGIN_DIR . 'includes/boot.php');
 $menus_sp = array();
 
 include(PLUGIN_DIR . 'youtube/index.php');
+include(PLUGIN_DIR . 'soundcloud/index.php');
 
 /*
 |------------------------------------------
