@@ -1,6 +1,9 @@
 <form action="" method="post" style="width:400px">
 	<table class="form-table">
 		<tr>
+			<th colspan="2">Insira o código [youtube-videos-package] na página para exibir os vídeos</th>
+		</tr>
+		<tr>
 			<th width="100"><label for="max_results">Nº de vídeos</label></th>
 			<th>
 				<input type="text" name="max_results" id="max_results" class="number-field"
